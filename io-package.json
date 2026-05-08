@@ -1,57 +1,44 @@
 {
-  "common": {
-    "name": "vis-2-widgets-technic",
-    "version": "0.1.0",
-    "news": {
-      "0.1.0": {
-        "en": "Initial release",
-        "de": "Erstveröffentlichung"
-      }
-    },
-    "title": "Technic VIS 2 Widgets",
-    "titleLang": {
-      "en": "Technic VIS 2 Widgets",
-      "de": "Technic VIS 2 Widgets"
-    },
-    "desc": {
-      "en": "Fenster & Rollo widget for ioBroker VIS 2",
-      "de": "Fenster & Rollo Widget für ioBroker VIS 2"
-    },
-    "authors": [
-      "Sefina-DS"
-    ],
-    "keywords": [
-      "iobroker",
-      "vis",
-      "vis-2",
-      "rollo",
-      "jalousie",
-      "fenster",
-      "shutter",
-      "technic"
-    ],
-    "license": "MIT",
-    "type": "visualization-widgets",
-    "main": "",
-    "mode": "once",
-    "platform": "Javascript/Node.js",
-    "readme": "https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic/blob/main/README.md",
-    "loglevel": "info",
-    "supportCustoms": false,
-    "visWidgets": {
-      "FensterRollo": {
-        "name": {
-          "en": "Window & Shutter",
-          "de": "Fenster & Rollo"
+    "common": {
+        "name": "vis-2-widgets-technic",
+        "version": "0.1.0",
+        "news": {
+            "0.1.0": {
+                "en": "Initial release",
+                "de": "Erstveröffentlichung"
+            }
         },
-        "url": "vis-2-widgets-technic/customWidgets.js",
-        "components": [
-          "FensterRolloWidget"
-        ]
-      }
-    }
-  },
-  "native": {},
-  "objects": [],
-  "instanceObjects": []
+        "title": "Technic VIS 2 Widgets",
+        "titleLang": {
+            "en": "Technic VIS 2 Widgets",
+            "de": "Technic VIS 2 Widgets"
+        },
+        "desc": {
+            "en": "Fenster & Rollo widget for ioBroker VIS 2",
+            "de": "Fenster & Rollo Widget für ioBroker VIS 2"
+        },
+        "authors": ["Sefina-DS"],
+        "keywords": ["iobroker", "vis", "vis-2", "rollo", "fenster", "shutter"],
+        "license": "MIT",
+        "type": "visualization-widgets",
+        "main": "",
+        "mode": "once",
+        "platform": "Javascript/Node.js",
+        "readme": "https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic/blob/main/README.md",
+        "loglevel": "info",
+        "supportCustoms": false,
+        "visWidgets": {
+            "vis2TechnicWidgets": {
+                "name": "vis2TechnicWidgets",
+                "url": "vis-2-widgets-technic/customWidgets.js",
+                "bundlerType": "module",
+                "components": [
+                    "FensterRolloWidget"
+                ]
+            }
+        }
+    },
+    "native": {},
+    "objects": [],
+    "instanceObjects": []
 }
