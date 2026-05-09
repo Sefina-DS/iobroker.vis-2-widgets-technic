@@ -4,86 +4,101 @@
 
 ---
 
-## Installation
+## Schnellstart
 
-### 1. Aus GitHub installieren (ioBroker Admin)
-
-1. ioBroker Admin öffnen → **Adapter** → **Von GitHub installieren**
-2. URL eingeben:
-   ```
-   https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic
-   ```
-3. ioBroker neu starten oder VIS 2 Adapter neu hochladen
-
-### 2. Widget in VIS 2 nutzen
-
-1. VIS 2 Editor öffnen
-2. Im Widget-Panel links: **Technic Widgets** → **Fenster & Rollo**
-3. Widget in die View ziehen
-4. Rechts im Eigenschaften-Panel konfigurieren:
-   - **Fenstertyp** auswählen (LZ / LA / RZ / RA / DZ / DA)
-   - **Datenpunkte** eintragen (Rollo-Position, Öffnungskontakt, Automatik, Manuell)
-
----
-
-## Datenpunkte
-
-| Eigenschaft | Typ | Beschreibung |
-|---|---|---|
-| `oid_rollo` | number (0–100, rw) | Rolloposition: 0 = auf, 100 = zu |
-| `oid_oeffnung` | boolean (ro) | Fensterkontakt: true = geöffnet |
-| `oid_automatik` | boolean (rw) | Automatikbetrieb an/aus |
-| `oid_manuell` | boolean (rw) | Manueller Override an/aus |
-
----
-
-## Entwicklung / Build
+### Installation (einmalig)
 
 ```bash
-# Repository klonen
-git clone https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic
-cd iobroker.vis-2-widgets-technic
+# In ioBroker Admin → Adapter → Von GitHub installieren
+https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic
 
-# Widget bauen
-npm run build
-# → erzeugt: widgets/vis-2-widgets-technic/customWidgets.js
-
-# oder direkt im src-widgets Ordner:
-cd src-widgets
-npm install
-npm run build
+# Dateien in VIS 2 DB hochladen (einmalig nach Installation)
+cd /opt/iobroker/node_modules/iobroker.vis-2-widgets-technic
+bash deploy.sh
 ```
 
-### Dateistruktur
+---
+
+## Entwicklungs-Workflow
+
+### Änderung machen → testen
+
+```bash
+# 1. Widget-Code bearbeiten
+nano src-widgets/src/DemoWidget.jsx
+
+# 2. Deploy (bauen + hochladen + VIS 2 neu starten)
+bash deploy.sh
+
+# 3. Browser hard refresh
+Ctrl+Shift+R
+```
+
+### Deploy-Optionen
+
+```bash
+bash deploy.sh                # Vollständiger Deploy (Build + Upload + Neustart)
+bash deploy.sh --no-build     # Nur Upload + Neustart (wenn Build schon aktuell)
+bash deploy.sh --no-restart   # Nur Build + Upload (kein VIS 2 Neustart)
+```
+
+---
+
+## Dateistruktur
 
 ```
 iobroker.vis-2-widgets-technic/
-├── io-package.json          ← ioBroker Adapter Manifest (visWidgets Eintrag)
+├── io-package.json              ← ioBroker Adapter Manifest
 ├── package.json
+├── deploy.sh                    ← Deploy Script für Entwicklung ⭐
 ├── README.md
-├── src-widgets/             ← React Quellcode
+├── src-widgets/                 ← React Quellcode
 │   ├── package.json
-│   ├── vite.config.js
+│   ├── vite.config.ts
 │   └── src/
-│       ├── index.jsx        ← Widget-Registrierung
-│       └── FensterRolloWidget.jsx  ← Haupt-Widget
-└── widgets/
+│       ├── index.jsx            ← Widget-Registrierung
+│       ├── DemoWidget.jsx       ← Haupt-Widget
+│       ├── translations.js
+│       └── i18n/               ← Übersetzungen
+│           ├── de.json
+│           ├── en.json
+│           └── ...
+└── widgets/                     ← Fertige Build-Dateien (für GitHub)
     └── vis-2-widgets-technic/
-        └── customWidgets.js ← BUILD-OUTPUT (von Vite erzeugt)
+        └── customWidgets.js
 ```
 
 ---
 
-## Fenstertypen
+## Wie funktioniert der Deploy?
 
-| Kürzel | Beschreibung |
-|---|---|
-| `LZ` | Normales Fenster, Griff links, geschlossen |
-| `LA` | Fenster aufgeklappt nach links |
-| `RZ` | Normales Fenster, Griff rechts, geschlossen |
-| `RA` | Fenster aufgeklappt nach rechts |
-| `DZ` | Dachfenster geschlossen |
-| `DA` | Dachfenster geöffnet |
+ioBroker VIS 2 serviert Widget-Dateien aus der **ioBroker Dateidatenbank** unter dem Namespace `vis-2/widgets/`. Das `deploy.sh` Script:
+
+1. **Baut** den React-Code mit Vite (`npm run build`)
+2. **Löscht** alte Dateien aus der DB (`vis-2/widgets/vis-2-widgets-technic/`)
+3. **Lädt** neue Dateien hoch (`iobroker file write` → `vis-2/widgets/...`)
+4. **Startet** VIS 2 neu damit der neue Code geladen wird
+
+> **Wichtig:** `iobroker upload vis-2-widgets-technic` reicht **nicht** — die Dateien müssen explizit in den `vis-2` Namespace hochgeladen werden!
+
+---
+
+## Widget in VIS 2 nutzen
+
+1. VIS 2 Editor öffnen
+2. Im Widget-Panel: **vis_2_widgets_template** → Widget reinziehen
+3. Rechts im Eigenschaften-Panel konfigurieren
+
+---
+
+## Auf GitHub pushen
+
+```bash
+# Nach einer fertigen Änderung:
+git add .
+git commit -m "Beschreibung der Änderung"
+git push
+```
 
 ---
 
