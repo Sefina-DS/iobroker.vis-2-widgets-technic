@@ -1,12 +1,13 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════
-#  deploy.sh — Technic Widget Deploy Script
+#  deploy.sh — Technic Widget Deploy Script (DEV)
 #  Nutzung: bash deploy.sh [--no-build] [--no-restart]
 # ═══════════════════════════════════════════════════════════
 set -e
 
 ADAPTER="vis-2-widgets-technic"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BUILD_DIR="$SCRIPT_DIR/src-widgets/build"
 WWW_DIR="$SCRIPT_DIR/www"
 WIDGETS_DIR="$SCRIPT_DIR/widgets/$ADAPTER"
 VIS2_WWW="/opt/iobroker/node_modules/iobroker.vis-2/www/widgets/$ADAPTER"
@@ -39,25 +40,25 @@ else
     echo "⏭ Build übersprungen"
 fi
 
-# ── 2. Kopiere Build nach www/ ────────────────────────────
+# ── 2. www/ aktualisieren ─────────────────────────────────
 echo "▶ Aktualisiere www/..."
 rm -rf "$WWW_DIR/assets"
 mkdir -p "$WWW_DIR/assets"
-cp -r "$SCRIPT_DIR/src-widgets/build/assets/"* "$WWW_DIR/assets/"
-cp "$SCRIPT_DIR/src-widgets/build/customWidgets.js" "$WWW_DIR/customWidgets.js"
-cp "$SCRIPT_DIR/src-widgets/build/mf-manifest.json" "$WWW_DIR/mf-manifest.json"
-cp "$SCRIPT_DIR/src-widgets/build/mf-stats.json"    "$WWW_DIR/mf-stats.json"
+cp -r "$BUILD_DIR/assets/"* "$WWW_DIR/assets/"
+cp "$BUILD_DIR/customWidgets.js" "$WWW_DIR/customWidgets.js"
+cp "$BUILD_DIR/mf-manifest.json" "$WWW_DIR/mf-manifest.json"
+cp "$BUILD_DIR/mf-stats.json"    "$WWW_DIR/mf-stats.json"
 echo "✓ www/ aktualisiert"
 echo ""
 
-# ── 3. Kopiere Build nach widgets/ ───────────────────────
+# ── 3. widgets/ aktualisieren (für GitHub + VIS 2) ────────
 echo "▶ Aktualisiere widgets/..."
-rm -rf "$WIDGETS_DIR/assets"
+rm -rf "$WIDGETS_DIR"
 mkdir -p "$WIDGETS_DIR/assets"
-cp -r "$SCRIPT_DIR/src-widgets/build/assets/"* "$WIDGETS_DIR/assets/"
-cp "$SCRIPT_DIR/src-widgets/build/customWidgets.js" "$WIDGETS_DIR/customWidgets.js"
-cp "$SCRIPT_DIR/src-widgets/build/mf-manifest.json" "$WIDGETS_DIR/mf-manifest.json"
-cp "$SCRIPT_DIR/src-widgets/build/mf-stats.json"    "$WIDGETS_DIR/mf-stats.json"
+cp -r "$BUILD_DIR/assets/"* "$WIDGETS_DIR/assets/"
+cp "$BUILD_DIR/customWidgets.js" "$WIDGETS_DIR/customWidgets.js"
+cp "$BUILD_DIR/mf-manifest.json" "$WIDGETS_DIR/mf-manifest.json"
+cp "$BUILD_DIR/mf-stats.json"    "$WIDGETS_DIR/mf-stats.json"
 echo "✓ widgets/ aktualisiert"
 echo ""
 

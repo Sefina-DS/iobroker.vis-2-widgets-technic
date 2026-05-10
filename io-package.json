@@ -3,6 +3,10 @@
         "name": "vis-2-widgets-technic",
         "version": "0.1.1",
         "news": {
+            "0.1.1": {
+                "en": "FensterNormal widget with SVG transparency and context menu",
+                "de": "FensterNormal Widget mit SVG Transparenz und Kontextmenü"
+            },
             "0.1.0": {
                 "en": "Initial release",
                 "de": "Erstveröffentlichung"
@@ -23,6 +27,7 @@
         "type": "visualization-widgets",
         "main": "",
         "mode": "once",
+        "singleton": true,
         "platform": "Javascript/Node.js",
         "readme": "https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic/blob/main/README.md",
         "loglevel": "info",
