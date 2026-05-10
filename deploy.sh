@@ -1,15 +1,12 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════
 #  deploy.sh — Technic Widget Deploy Script (DEV)
-#  Nutzung: bash deploy.sh [--no-build] [--no-restart]
+#  Nutzung: ./deploy.sh [--no-build] [--no-restart]
 # ═══════════════════════════════════════════════════════════
 set -e
 
 ADAPTER="vis-2-widgets-technic"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BUILD_DIR="$SCRIPT_DIR/src-widgets/build"
-WWW_DIR="$SCRIPT_DIR/www"
-WIDGETS_DIR="$SCRIPT_DIR/widgets/$ADAPTER"
 VIS2_WWW="/opt/iobroker/node_modules/iobroker.vis-2/www/widgets/$ADAPTER"
 IOBDATA="/opt/iobroker/iobroker-data/files"
 
@@ -28,54 +25,31 @@ echo "║   Technic Widget Deploy                  ║"
 echo "╚══════════════════════════════════════════╝"
 echo ""
 
-# ── 1. Build ──────────────────────────────────────────────
+# ── 1. Build + Copy nach widgets/ ────────────────────────
 if [ "$NO_BUILD" = false ]; then
-    echo "▶ Baue Widget..."
-    cd "$SCRIPT_DIR/src-widgets"
-    npm run build
+    echo "▶ Baue Widget und kopiere nach widgets/..."
     cd "$SCRIPT_DIR"
-    echo "✓ Build abgeschlossen"
+    node tasks
+    echo "✓ Build + Copy abgeschlossen"
     echo ""
 else
     echo "⏭ Build übersprungen"
 fi
 
-# ── 2. www/ aktualisieren ─────────────────────────────────
-echo "▶ Aktualisiere www/..."
-rm -rf "$WWW_DIR/assets"
-mkdir -p "$WWW_DIR/assets"
-cp -r "$BUILD_DIR/assets/"* "$WWW_DIR/assets/"
-cp "$BUILD_DIR/customWidgets.js" "$WWW_DIR/customWidgets.js"
-cp "$BUILD_DIR/mf-manifest.json" "$WWW_DIR/mf-manifest.json"
-cp "$BUILD_DIR/mf-stats.json"    "$WWW_DIR/mf-stats.json"
-echo "✓ www/ aktualisiert"
-echo ""
-
-# ── 3. widgets/ aktualisieren (für GitHub + VIS 2) ────────
-echo "▶ Aktualisiere widgets/..."
-rm -rf "$WIDGETS_DIR"
-mkdir -p "$WIDGETS_DIR/assets"
-cp -r "$BUILD_DIR/assets/"* "$WIDGETS_DIR/assets/"
-cp "$BUILD_DIR/customWidgets.js" "$WIDGETS_DIR/customWidgets.js"
-cp "$BUILD_DIR/mf-manifest.json" "$WIDGETS_DIR/mf-manifest.json"
-cp "$BUILD_DIR/mf-stats.json"    "$WIDGETS_DIR/mf-stats.json"
-echo "✓ widgets/ aktualisiert"
-echo ""
-
-# ── 4. VIS 2 Cache leeren ────────────────────────────────
+# ── 2. VIS 2 Cache leeren ────────────────────────────────
 echo "▶ Leere VIS 2 Cache..."
 rm -rf "$VIS2_WWW"
 rm -rf "$IOBDATA/vis-2/widgets/$ADAPTER"
 echo "✓ Cache geleert"
 echo ""
 
-# ── 5. Upload zu ioBroker DB ─────────────────────────────
+# ── 3. Upload zu ioBroker DB ─────────────────────────────
 echo "▶ Upload zu ioBroker..."
 iobroker upload "$ADAPTER" --allow-root
 echo "✓ Upload abgeschlossen"
 echo ""
 
-# ── 6. VIS 2 neu starten ─────────────────────────────────
+# ── 4. VIS 2 neu starten ─────────────────────────────────
 if [ "$NO_RESTART" = false ]; then
     echo "▶ Starte VIS 2 neu..."
     iobroker restart vis-2 --allow-root

@@ -8,14 +8,16 @@
   "files": [
     "admin/",
     "widgets/",
-    "www/",
     "io-package.json",
     "LICENSE"
   ],
   "scripts": {
-    "build": "cd src-widgets && npm install && npm run build",
-    "deploy": "cd src-widgets && npm install && npm run build"
+    "build": "node tasks",
+    "build-only": "node tasks --build",
+    "copy-files": "node tasks --copy-files"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@iobroker/build-tools": "^3.0.1"
+  }
 }
