@@ -14,7 +14,8 @@
   "scripts": {
     "build": "node tasks",
     "build-only": "node tasks --build",
-    "copy-files": "node tasks --copy-files"
+    "copy-files": "node tasks --copy-files",
+    "postinstall": "node install.js"
   },
   "dependencies": {},
   "devDependencies": {
