@@ -1,10 +1,17 @@
 {
   "name": "iobroker.vis-2-widgets-technic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fenster & Rollo widgets for ioBroker VIS 2",
   "author": "Sefina-DS",
   "license": "MIT",
-  "main": "",
+  "main": "widgets/vis-2-widgets-technic/customWidgets.js",
+  "files": [
+    "admin/",
+    "widgets/",
+    "www/",
+    "io-package.json",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "cd src-widgets && npm install && npm run build",
     "deploy": "cd src-widgets && npm install && npm run build"
