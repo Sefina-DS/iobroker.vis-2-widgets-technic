@@ -1,0 +1,4 @@
+src-widgets/node_modules/
+src-widgets/build/
+node_modules/
+*.log
