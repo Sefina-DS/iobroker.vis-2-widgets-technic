@@ -9,6 +9,7 @@
     "admin/",
     "widgets/",
     "io-package.json",
+    "install.js",
     "LICENSE"
   ],
   "scripts": {
