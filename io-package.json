@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "vis-2-widgets-technic",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "news": {
             "0.1.0": {
                 "en": "Initial release",
@@ -33,7 +33,7 @@
                 "url": "vis-2-widgets-technic/customWidgets.js",
                 "bundlerType": "module",
                 "components": [
-                    "FensterRolloWidget"
+                    "FensterNormal"
                 ]
             }
         }
