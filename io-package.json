@@ -35,6 +35,7 @@
         "readme": "https://github.com/Sefina-DS/iobroker.vis-2-widgets-technic/blob/main/README.md",
         "loglevel": "info",
         "supportCustoms": false,
+        "adminUI": {"config": "none"},
         "visWidgets": {
             "vis2TechnicWidgets": {
                 "name": "vis2TechnicWidgets",
